@@ -6,5 +6,5 @@ main_bp = Blueprint('main', __name__)
 # 2. สร้าง Route เดียวสำหรับหน้าเว็บทั้งหมด
 @main_bp.route('/')
 def index():
-    # เราจะ Render แค่ index.html ที่เป็น Single-Page App
+    # [แก้ไข] เราจะ Render แค่ index.html (โดยไม่ส่ง list รูปภาพใดๆ)
     return render_template('index.html')

@@ -1,6 +1,7 @@
 /* --- Global & Setup --- */
 :root {
-    --color-pink-light: #fff0f5; /* ชมพูอ่อน */
+    --color-pink-light: #fff0f5; /* ชมพูอ่อน (หลัก) */
+    --color-pink-shadow: rgba(255,182,193,0.5); /* เงาสีชมพู (LightPink) */
     --color-lavender: #e6e6fa;   /* ม่วงลาเวนเดอร์ */
     --color-gold: #ffd700;      /* ทอง */
     --color-text: #5d3a7b;      /* สีตัวหนังสือเข้ม (ม่วง) */
@@ -8,7 +9,7 @@
 }
 
 html {
-    scroll-behavior: smooth; /* ทำให้การเลื่อนด้วย JS สวยงาม */
+    scroll-behavior: smooth;
 }
 
 body {
@@ -17,6 +18,7 @@ body {
     padding: 0;
     color: var(--color-text);
     overflow: hidden; /* ซ่อน Scrollbar ปกติ */
+    background-color: var(--color-pink-light);
 }
 
 h1, h2 {
@@ -28,36 +30,42 @@ h1, h2 {
     width: 100vw;
     height: 100vh;
     overflow-y: scroll;
-    /* นี่คือหัวใจสำคัญ: บังคับให้เลื่อนทีละหน้าพอดี */
     scroll-snap-type: y mandatory;
 }
 
 .page {
     width: 100vw;
     height: 100vh;
-    /* นี่คือหัวใจสำคัญ: บอกว่าจุด Snap อยู่ตรงไหน */
     scroll-snap-align: start;
-    
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     padding: 20px;
-    box-sizing: border-box; /* กัน layout เพี้ยน */
+    box-sizing: border-box;
     position: relative;
-    overflow: hidden; /* กันเอฟเฟกต์ล้น */
+    overflow: hidden;
 }
 
 .center-box {
     background: rgba(255, 255, 255, 0.9);
     padding: 30px 40px;
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     text-align: center;
     max-width: 600px;
     width: 90%;
     z-index: 2;
+    box-shadow: 0 0 20px var(--color-pink-shadow);
 }
+
+/* [เพิ่ม] 1. ใช้ Flexbox เพื่อจัดกลางเนื้อหาในกล่องต้อนรับ */
+.welcome-box {
+    display: flex;
+    flex-direction: column; /* เรียงแนวตั้ง */
+    align-items: center;    /* จัดให้อยู่กึ่งกลางแนวนอน */
+    justify-content: center; /* (จัดกลางแนวตั้งด้วยเผื่อไว้) */
+}
+
 
 /* --- ปุ่ม (Buttons) --- */
 .btn-main {
@@ -67,17 +75,19 @@ h1, h2 {
     padding: 12px 25px;
     font-size: 1.1em;
     font-weight: bold;
-    border-radius: 50px;
+    border-radius: 20px;
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 20px;
     text-decoration: none;
     border: 2px solid var(--color-gold);
+    box-shadow: 0 0 20px var(--color-pink-shadow);
 }
 
 .btn-main:hover {
     background-color: #ffeb8c;
     transform: scale(1.05);
+    animation: bounce 0.5s ease;
 }
 
 .btn-next {
@@ -95,23 +105,30 @@ h1, h2 {
 }
 .btn-next:hover {
     transform: scale(1.1);
+    background: rgba(255, 255, 255, 1);
 }
 
 
 /* --- หน้า 1: Welcome --- */
-#page-welcome {
-    background: linear-gradient(135deg, var(--color-pink-light), var(--color-lavender));
+/* (ลบ #page-welcome ที่ว่างๆ ออก) */
+
+/* [เพิ่ม] 2. ปรับปรุง Title ให้อ่านง่ายและสวยขึ้น */
+.welcome-box h1 {
+    font-size: 2em; /* ขนาดใหญ่ขึ้น */
+    color: #e85a73; /* สีชมพูเข้ม (จาก .wish-display) */
+    margin-bottom: 15px; /* เว้นระยะห่าง */
 }
+
 .cake-gif {
     width: 150px;
     height: 150px;
-    margin: 15px 0;
+    margin: 15px 0; /* เว้นระยะบนล่าง */
+    
+    /* [เพิ่ม] 3. ใส่เงาให้เค้กดูนุ่มนวล */
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
 }
 
 /* --- หน้า 2: Gifts --- */
-#page-gifts {
-    background: linear-gradient(135deg, var(--color-lavender), #d4f0ff);
-}
 .gift-boxes {
     display: flex;
     justify-content: center;
@@ -125,25 +142,27 @@ h1, h2 {
     transition: transform 0.2s ease-in-out;
 }
 .gift-box img:hover {
-    transform: scale(1.1) rotate(5deg);
+    animation: bounce 0.5s ease;
+    filter: drop-shadow(0 0 15px var(--color-pink-shadow));
 }
 
+
 /* --- หน้า 3: Gallery --- */
-#page-gallery {
-    background: linear-gradient(135deg, #d4f0ff, #fff0f5);
-}
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 คอลัมน์ */
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
-    max-height: 40vh;
+    max-height: 60vh;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 10px;
     background: rgba(255,255,255,0.5);
     border-radius: 10px;
 }
 .gallery-grid img {
     width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
     border-radius: 8px;
     cursor: pointer;
     transition: transform 0.2s;
@@ -152,10 +171,8 @@ h1, h2 {
     transform: scale(1.05);
 }
 
+
 /* --- หน้า 4: Final Message --- */
-#page-final {
-    background: linear-gradient(135deg, #ffdde1, var(--color-pink-light));
-}
 .wish-display {
     font-size: 1.2em;
     font-style: italic;
@@ -168,7 +185,7 @@ h1, h2 {
     text-align: left;
 }
 #secret-message {
-    display: none; /* ซ่อนไว้ก่อน */
+    display: none;
     font-size: 1.8em;
     font-weight: bold;
     color: #e85a73;
@@ -178,45 +195,55 @@ h1, h2 {
 
 /* --- Modal (Pop-up) --- */
 .modal {
-    display: none; /* ซ่อนปกติ */
+    display: none;
     position: fixed;
     z-index: 100;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
     background-color: rgba(0,0,0,0.6);
     animation: fadeIn 0.3s;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
 }
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto;
     padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
-    border-radius: 10px;
+    border-radius: 20px;
     position: relative;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: auto;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 .modal-close {
-    color: #aaa;
+    color: #555;
     float: right;
-    font-size: 28px;
-    font-weight: bold;
+    font-size: 32px;
+    font-weight: 900;
     cursor: pointer;
+    line-height: 1;
+    transition: all 0.2s ease;
 }
 .modal-close:hover {
     color: #000;
+    transform: scale(1.1);
 }
 #modal-body {
     padding-top: 20px;
     text-align: center;
 }
 #modal-body img {
-    max-width: 100%;
     border-radius: 10px;
+    max-width: 100%;
+    max-height: 80vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
 }
 #modal-body iframe {
     width: 100%;
@@ -229,6 +256,7 @@ h1, h2 {
     color: #e85a73;
 }
 
+
 /* --- เอฟเฟกต์ (Particles) --- */
 #effects-container {
     position: fixed;
@@ -236,7 +264,7 @@ h1, h2 {
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none; /* ทำให้คลิกทะลุได้ */
+    pointer-events: none;
     z-index: 999;
     overflow: hidden;
 }
@@ -251,18 +279,103 @@ h1, h2 {
     animation: floatUp 4s ease-out forwards;
 }
 
-/* --- Keyframe Animations --- */
+/* --- Animation พื้นหลัง (หัวใจ & ลูกโป่ง) --- */
+.background-animations {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.heart-bg, .balloon-bg {
+    position: absolute;
+    bottom: -100px;
+    opacity: 0.15;
+    animation: floatBackground 20s linear infinite;
+}
+.heart-bg::before {
+    content: '💖';
+    font-size: 30px;
+}
+.heart-bg:nth-child(1) { left: 10%; animation-delay: 0s; font-size: 20px; }
+.heart-bg:nth-child(2) { left: 30%; animation-delay: 5s; font-size: 30px; }
+.heart-bg:nth-child(3) { left: 70%; animation-delay: 10s; font-size: 25px; }
+.balloon-bg::before {
+    content: '🎈';
+    font-size: 30px;
+}
+.balloon-bg:nth-child(4) { left: 50%; animation-delay: 2s; font-size: 20px; }
+.balloon-bg:nth-child(5) { left: 80%; animation-delay: 15s; font-size: 30px; }
+
+
+/* --- Keyframe Animations (เด้ง & ลอย) --- */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
-
 @keyframes fall {
     0% { top: -10px; opacity: 1; }
     100% { top: 100vh; opacity: 0; }
 }
-
 @keyframes floatUp {
     0% { bottom: -10px; opacity: 1; transform: scale(0.5); }
     100% { bottom: 100vh; opacity: 0; transform: scale(1.5); }
+}
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+@keyframes floatBackground {
+    0% {
+        bottom: -100px;
+        transform: translateX(0);
+    }
+    100% {
+        bottom: 110vh;
+        transform: translateX(20px);
+    }
+}
+
+
+/* --- Responsive สำหรับมือถือ --- */
+@media (max-width: 768px) {
+    h1 { font-size: 1.8em; }
+    h2 { font-size: 1.4em; }
+
+    /* [เพิ่ม] 4. ปรับ Title ในมือถือ */
+    .welcome-box h1 {
+        font-size: 1.6em; /* ขนาดในมือถือ */
+    }
+
+    .center-box {
+        width: 95%;
+        padding: 20px 15px;
+    }
+    
+    .gift-box img {
+        width: 100px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(1, 1fr);
+        max-height: 65vh;
+    }
+
+    .modal-content {
+        width: 90%;
+        max-width: 90vw;
+        max-height: 90vh;
+        padding: 15px;
+    }
+    
+    #modal-body img {
+        max-height: 75vh;
+    }
+
+    #secret-message {
+        font-size: 1.3em;
+    }
 }

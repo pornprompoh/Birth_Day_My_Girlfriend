@@ -1,29 +1,27 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    // 1. หา audio element
+    const birthdayAudio = document.getElementById('birthday-audio');
+
     // --- 1. ควบคุมการเลื่อนหน้า (Page Scrolling) ---
-    
-    // ปุ่มหน้า 1 -> หน้า 2
     const welcomeBtn = document.getElementById('welcome-btn');
     if (welcomeBtn) {
         welcomeBtn.addEventListener('click', function() {
-            // 1. สร้าง Confetti
+            if (birthdayAudio && birthdayAudio.paused) {
+                birthdayAudio.play().catch(error => {
+                    console.log("Audio play failed:", error);
+                });
+            }
             createConfetti();
-            
-            // 2. เลื่อนไปหน้า Gifts
-            document.getElementById('page-gifts').scrollIntoView({
-                behavior: 'smooth'
-            });
+            document.getElementById('page-gifts').scrollIntoView({ behavior: 'smooth' });
         });
     }
 
-    // ปุ่ม "ถัดไป" ทั้งหมด (ที่ไปหน้า 3 และ 4)
     const nextButtons = document.querySelectorAll('.btn-next');
     nextButtons.forEach(button => {
         button.addEventListener('click', function() {
             const targetId = this.getAttribute('data-scroll-to');
-            document.getElementById(targetId).scrollIntoView({
-                behavior: 'smooth'
-            });
+            document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
         });
     });
 
@@ -32,61 +30,50 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalBody = document.getElementById('modal-body');
     const modalClose = document.querySelector('.modal-close');
 
-    // ปิด Modal
     if (modalClose) {
-        modalClose.onclick = () => { modal.style.display = 'none'; };
+        modalClose.onclick = () => { 
+            modal.style.display = 'none'; // ซ่อน
+            modalBody.innerHTML = ''; 
+        };
     }
     window.onclick = (event) => {
         if (event.target == modal) {
-            modal.style.display = 'none';
+            modal.style.display = 'none'; // ซ่อน
+            modalBody.innerHTML = '';
         }
     };
 
     // --- 3. Logic หน้า 2 (Gifts) ---
     const giftBoxes = document.querySelectorAll('.gift-box');
+    
     giftBoxes.forEach(box => {
         box.addEventListener('click', function() {
             const giftType = this.getAttribute('data-gift');
-            
-            // เล่นเสียง "ติ๊ง" (ถ้ามี)
-            // new Audio('path/to/ting_sound.mp3').play();
 
-            // กำหนดเนื้อหาใน Modal
             if (giftType === 'text') {
-                modalBody.innerHTML = '<h3>รักเธอนะที่หนึ่งเลย 💗</h3>';
-            } else if (giftType === 'image') {
-                modalBody.innerHTML = `
-                    <h3>รูปคู่ของเรา!</h3>
-                    <img src="${window.location.origin}/static/images/couple_pic.jpg" alt="รูปคู่">
-                `;
-            } else if (giftType === 'video') {
-                modalBody.innerHTML = `
-                    <h3>เพลงนี้ให้เธอ</h3>
-                    <iframe 
-                        src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" 
-                        title="YouTube video player" 
-                        allow="autoplay; encrypted-media; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
-                `;
+                modalBody.innerHTML = '<h3>สุขสันต์วันเกิดนะคับน้องมุกกก 💖</h3>';
             }
             
-            modal.style.display = 'block';
+            // [แก้ไข] 1. เปลี่ยนจาก 'block' เป็น 'flex'
+            modal.style.display = 'flex';
         });
     });
 
+
     // --- 4. Logic หน้า 3 (Gallery) ---
-    const galleryImages = document.querySelectorAll('.gallery-grid img');
-    galleryImages.forEach(img => {
+    const galleryImagesElements = document.querySelectorAll('.gallery-grid img');
+    galleryImagesElements.forEach(img => {
         img.addEventListener('click', function() {
             const imgSrc = this.getAttribute('src');
-            const imgAlt = this.getAttribute('alt'); // ข้อความใต้ภาพ
+            const imgAlt = this.getAttribute('alt');
             
             modalBody.innerHTML = `
                 <img src="${imgSrc}" alt="${imgAlt}">
                 <p style="margin-top: 10px;">${imgAlt}</p>
             `;
-            modal.style.display = 'block';
+            
+            // [แก้ไข] 2. เปลี่ยนจาก 'block' เป็น 'flex'
+            modal.style.display = 'flex';
         });
     });
 
@@ -94,14 +81,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const finalBtn = document.getElementById('final-btn');
     if (finalBtn) {
         finalBtn.addEventListener('click', function() {
-            // 1. สร้างหัวใจลอย
             createHeartBurst();
-            
-            // 2. แสดงข้อความลับ
             const secretMessage = document.getElementById('secret-message');
             secretMessage.style.display = 'block';
-            
-            // 3. ซ่อนปุ่ม (กันกดซ้ำ)
             this.style.display = 'none';
         });
     }
@@ -109,7 +91,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- 6. เอฟเฟกต์ (Effect Functions) ---
     const effectsContainer = document.getElementById('effects-container');
 
-    // Confetti จากหน้า 1
     function createConfetti() {
         for (let i = 0; i < 100; i++) {
             const particle = document.createElement('div');
@@ -117,7 +98,6 @@ document.addEventListener('DOMContentLoaded', function() {
             particle.style.left = `${Math.random() * 100}vw`;
             particle.style.animationDelay = `${Math.random() * 0.5}s`;
             
-            // สีพาสเทล
             const colors = ['#fec5bb', '#fcd5ce', '#fae1dd', '#e8dff5', '#d8cbed'];
             particle.style.background = colors[Math.floor(Math.random() * colors.length)];
             particle.style.width = `${Math.random() * 10 + 5}px`;
@@ -127,11 +107,10 @@ document.addEventListener('DOMContentLoaded', function() {
             
             setTimeout(() => {
                 particle.remove();
-            }, 5000); // ลบออกเมื่อ animation จบ
+            }, 5000);
         }
     }
 
-    // Heart Burst จากหน้า 4
     function createHeartBurst() {
         for (let i = 0; i < 50; i++) {
             const heart = document.createElement('div');
@@ -145,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             setTimeout(() => {
                 heart.remove();
-            }, 4000); // ลบออกเมื่อ animation จบ
+            }, 4000);
         }
     }
 });
