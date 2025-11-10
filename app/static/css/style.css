@@ -1,0 +1,268 @@
+/* --- Global & Setup --- */
+:root {
+    --color-pink-light: #fff0f5; /* ชมพูอ่อน */
+    --color-lavender: #e6e6fa;   /* ม่วงลาเวนเดอร์ */
+    --color-gold: #ffd700;      /* ทอง */
+    --color-text: #5d3a7b;      /* สีตัวหนังสือเข้ม (ม่วง) */
+    --font-main: 'Kanit', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth; /* ทำให้การเลื่อนด้วย JS สวยงาม */
+}
+
+body {
+    font-family: var(--font-main);
+    margin: 0;
+    padding: 0;
+    color: var(--color-text);
+    overflow: hidden; /* ซ่อน Scrollbar ปกติ */
+}
+
+h1, h2 {
+    font-weight: 700;
+}
+
+/* --- โครงสร้างหน้า (Page Structure) --- */
+.main-container {
+    width: 100vw;
+    height: 100vh;
+    overflow-y: scroll;
+    /* นี่คือหัวใจสำคัญ: บังคับให้เลื่อนทีละหน้าพอดี */
+    scroll-snap-type: y mandatory;
+}
+
+.page {
+    width: 100vw;
+    height: 100vh;
+    /* นี่คือหัวใจสำคัญ: บอกว่าจุด Snap อยู่ตรงไหน */
+    scroll-snap-align: start;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box; /* กัน layout เพี้ยน */
+    position: relative;
+    overflow: hidden; /* กันเอฟเฟกต์ล้น */
+}
+
+.center-box {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+    z-index: 2;
+}
+
+/* --- ปุ่ม (Buttons) --- */
+.btn-main {
+    background-color: var(--color-gold);
+    color: var(--color-text);
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1em;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    text-decoration: none;
+    border: 2px solid var(--color-gold);
+}
+
+.btn-main:hover {
+    background-color: #ffeb8c;
+    transform: scale(1.05);
+}
+
+.btn-next {
+    font-size: 1em;
+    font-weight: bold;
+    color: var(--color-text);
+    text-decoration: none;
+    margin-top: 25px;
+    display: inline-block;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 8px 15px;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+}
+.btn-next:hover {
+    transform: scale(1.1);
+}
+
+
+/* --- หน้า 1: Welcome --- */
+#page-welcome {
+    background: linear-gradient(135deg, var(--color-pink-light), var(--color-lavender));
+}
+.cake-gif {
+    width: 150px;
+    height: 150px;
+    margin: 15px 0;
+}
+
+/* --- หน้า 2: Gifts --- */
+#page-gifts {
+    background: linear-gradient(135deg, var(--color-lavender), #d4f0ff);
+}
+.gift-boxes {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+.gift-box img {
+    width: 120px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+.gift-box img:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* --- หน้า 3: Gallery --- */
+#page-gallery {
+    background: linear-gradient(135deg, #d4f0ff, #fff0f5);
+}
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 คอลัมน์ */
+    gap: 10px;
+    max-height: 40vh;
+    overflow-y: auto;
+    padding: 10px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 10px;
+}
+.gallery-grid img {
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.gallery-grid img:hover {
+    transform: scale(1.05);
+}
+
+/* --- หน้า 4: Final Message --- */
+#page-final {
+    background: linear-gradient(135deg, #ffdde1, var(--color-pink-light));
+}
+.wish-display {
+    font-size: 1.2em;
+    font-style: italic;
+    color: #e85a73;
+    padding: 15px 20px;
+    background: #fff8f9;
+    border-left: 5px solid #ffb6c1;
+    border-radius: 5px;
+    margin: 20px 0;
+    text-align: left;
+}
+#secret-message {
+    display: none; /* ซ่อนไว้ก่อน */
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #e85a73;
+    margin-top: 20px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* --- Modal (Pop-up) --- */
+.modal {
+    display: none; /* ซ่อนปกติ */
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+    animation: fadeIn 0.3s;
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.modal-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.modal-close:hover {
+    color: #000;
+}
+#modal-body {
+    padding-top: 20px;
+    text-align: center;
+}
+#modal-body img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+#modal-body iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: none;
+    border-radius: 10px;
+}
+#modal-body h3 {
+    font-size: 1.5em;
+    color: #e85a73;
+}
+
+/* --- เอฟเฟกต์ (Particles) --- */
+#effects-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* ทำให้คลิกทะลุได้ */
+    z-index: 999;
+    overflow: hidden;
+}
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    animation: fall 5s linear forwards;
+}
+.heart {
+    position: absolute;
+    font-size: 24px;
+    animation: floatUp 4s ease-out forwards;
+}
+
+/* --- Keyframe Animations --- */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fall {
+    0% { top: -10px; opacity: 1; }
+    100% { top: 100vh; opacity: 0; }
+}
+
+@keyframes floatUp {
+    0% { bottom: -10px; opacity: 1; transform: scale(0.5); }
+    100% { bottom: 100vh; opacity: 0; transform: scale(1.5); }
+}

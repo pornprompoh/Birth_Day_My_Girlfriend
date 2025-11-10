@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section id="page-welcome" class="page">
+    <div class="center-box welcome-box">
+        <h1>🎉 Happy Birthday, My Love 💕</h1>
+        <img src="{{ url_for('static', filename='images/cake.gif') }}" alt="เค้กวันเกิด" class="cake-gif">
+        <button id="welcome-btn" class="btn-main">
+            กดเพื่อเปิดของขวัญ 🎁
+        </button>
+    </div>
+</section>
+
+<section id="page-gifts" class="page">
+    <div class="center-box">
+        <h2>เซอร์ไพรส์สำหรับเธอ!</h2>
+        <p>เลือกเปิดกล่องของขวัญได้เลย</p>
+        <div class="gift-boxes">
+            <div class="gift-box" data-gift="text">
+                <img src="{{ url_for('static', filename='images/gift_box.png') }}" alt="กล่องของขวัญ 1">
+            </div>
+            <div class="gift-box" data-gift="image">
+                <img src="{{ url_for('static', filename='images/gift_box.png') }}" alt="กล่องของขวัญ 2">
+            </div>
+            <div class="gift-box" data-gift="video">
+                <img src="{{ url_for('static', filename='images/gift_box.png') }}" alt="กล่องของขวัญ 3">
+            </div>
+        </div>
+        <button class="btn-next" data-scroll-to="page-gallery">
+            ดูความทรงจำของเรา ➡️
+        </button>
+    </div>
+</section>
+
+<section id="page-gallery" class="page">
+    <div class="center-box">
+        <h2>🌈 ความทรงจำของเรา</h2>
+        <div class="gallery-grid">
+            <img src="{{ url_for('static', filename='images/gallery/pic1.jpg') }}" alt="วันที่ไปเที่ยวด้วยกันครั้งแรก 💞">
+            <img src="{{ url_for('static', filename='images/gallery/pic2.jpg') }}" alt="รูปตลกๆ ของเรา 🤣">
+            <img src="{{ url_for('static', filename='images/gallery/pic3.jpg') }}" alt="วันครบรอบ 1 ปี">
+            <img src="{{ url_for('static', filename='images/gallery/pic4.jpg') }}" alt="รักนะ ❤️">
+            </div>
+        <button class="btn-next" data-scroll-to="page-final">
+            ข้อความสุดท้าย 💌
+        </button>
+    </div>
+</section>
+
+<section id="page-final" class="page">
+    <div class="center-box final-message">
+        <h2>สุขสันต์วันเกิดนะที่รัก</h2>
+        <blockquote class="wish-display">
+            "ขอให้ปีนี้เป็นปีที่ดีที่สุดของเธอ 💕<br>
+            ขอบคุณที่เข้ามาเติมเต็มชีวิตเรานะ"
+        </blockquote>
+        
+        <button id="final-btn" class="btn-main">
+            กดดูข้อความพิเศษ 💖
+        </button>
+
+        <div id="secret-message">
+            I Love You Forever 💖
+        </div>
+    </div>
+</section>
+
+{% endblock %}
