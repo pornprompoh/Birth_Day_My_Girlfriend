@@ -32,13 +32,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (modalClose) {
         modalClose.onclick = () => { 
-            modal.style.display = 'none'; // ซ่อน
+            modal.style.display = 'none'; 
             modalBody.innerHTML = ''; 
         };
     }
     window.onclick = (event) => {
         if (event.target == modal) {
-            modal.style.display = 'none'; // ซ่อน
+            modal.style.display = 'none'; 
             modalBody.innerHTML = '';
         }
     };
@@ -50,11 +50,37 @@ document.addEventListener('DOMContentLoaded', function() {
         box.addEventListener('click', function() {
             const giftType = this.getAttribute('data-gift');
 
+            // กล่องที่ 1: ข้อความ
             if (giftType === 'text') {
                 modalBody.innerHTML = '<h3>สุขสันต์วันเกิดนะคับน้องมุกกก 💖</h3>';
+            
+            // กล่องที่ 2: วิดีโอส่วนตัว
+            } else if (giftType === 'local-video') {
+                modalBody.innerHTML = `
+                    <h3>วิดีโอพิเศษสำหรับเธอ 🎬</h3>
+                    <video 
+                        src="/static/videos/my_video.mp4" 
+                        controls 
+                        autoplay 
+                        style="width: 100%; border-radius: 10px; max-height: 70vh;">
+                    </video>
+                `;
+            
+            // [แก้ไข] กล่องที่ 3: เปลี่ยนเป็น "ปุ่มลิงก์"
+            } else if (giftType === 'youtube-music') {
+                modalBody.innerHTML = `
+                    <h3>เพลงนี้...ให้เธอนะ 🎵</h3>
+                    <p style="margin: 20px 0;">กดที่ปุ่มด้านล่างเพื่อฟังเพลงบน YouTube ได้เลย</p>
+                    <a 
+                        href="https://www.youtube.com/watch?v=rc7KnQAh_1I" 
+                        target="_blank" 
+                        class="btn-main" 
+                        style="background-color: #c4302b; border-color: #c4302b; color: white;">
+                        🎵 เปิด YouTube 🎵
+                    </a>
+                `;
             }
             
-            // [แก้ไข] 1. เปลี่ยนจาก 'block' เป็น 'flex'
             modal.style.display = 'flex';
         });
     });
@@ -72,7 +98,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p style="margin-top: 10px;">${imgAlt}</p>
             `;
             
-            // [แก้ไข] 2. เปลี่ยนจาก 'block' เป็น 'flex'
             modal.style.display = 'flex';
         });
     });

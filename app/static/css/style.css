@@ -18,7 +18,9 @@ body {
     padding: 0;
     color: var(--color-text);
     overflow: hidden; /* ซ่อน Scrollbar ปกติ */
-    background-color: var(--color-pink-light);
+    
+    /* [แก้ไข] 1. เปลี่ยนจากสีเดียวเป็นไล่สี (Gradient) */
+    background: linear-gradient(135deg, var(--color-pink-light) 0%, var(--color-lavender) 100%);
 }
 
 h1, h2 {
@@ -58,12 +60,11 @@ h1, h2 {
     box-shadow: 0 0 20px var(--color-pink-shadow);
 }
 
-/* [เพิ่ม] 1. ใช้ Flexbox เพื่อจัดกลางเนื้อหาในกล่องต้อนรับ */
 .welcome-box {
     display: flex;
-    flex-direction: column; /* เรียงแนวตั้ง */
-    align-items: center;    /* จัดให้อยู่กึ่งกลางแนวนอน */
-    justify-content: center; /* (จัดกลางแนวตั้งด้วยเผื่อไว้) */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 
@@ -110,21 +111,16 @@ h1, h2 {
 
 
 /* --- หน้า 1: Welcome --- */
-/* (ลบ #page-welcome ที่ว่างๆ ออก) */
-
-/* [เพิ่ม] 2. ปรับปรุง Title ให้อ่านง่ายและสวยขึ้น */
 .welcome-box h1 {
-    font-size: 2em; /* ขนาดใหญ่ขึ้น */
-    color: #e85a73; /* สีชมพูเข้ม (จาก .wish-display) */
-    margin-bottom: 15px; /* เว้นระยะห่าง */
+    font-size: 2em;
+    color: #e85a73;
+    margin-bottom: 15px;
 }
 
 .cake-gif {
     width: 150px;
     height: 150px;
-    margin: 15px 0; /* เว้นระยะบนล่าง */
-    
-    /* [เพิ่ม] 3. ใส่เงาให้เค้กดูนุ่มนวล */
+    margin: 15px 0;
     filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
 }
 
@@ -293,7 +289,8 @@ h1, h2 {
 .heart-bg, .balloon-bg {
     position: absolute;
     bottom: -100px;
-    opacity: 0.15;
+    /* [แก้ไข] 2. เพิ่มความชัดจาก 0.15 เป็น 0.2 */
+    opacity: 0.2; 
     animation: floatBackground 20s linear infinite;
 }
 .heart-bg::before {
@@ -309,6 +306,20 @@ h1, h2 {
 }
 .balloon-bg:nth-child(4) { left: 50%; animation-delay: 2s; font-size: 20px; }
 .balloon-bg:nth-child(5) { left: 80%; animation-delay: 15s; font-size: 30px; }
+
+
+/* --- [เพิ่ม] 3. (โบนัส) สไตล์ Scrollbar --- */
+.gallery-grid::-webkit-scrollbar {
+    width: 6px;
+}
+.gallery-grid::-webkit-scrollbar-thumb {
+    background: rgba(255, 182, 193, 0.7); /* สีชมพู */
+    border-radius: 10px;
+}
+.gallery-grid::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.5); /* สีขาวโปร่งใส */
+}
+/* --- สิ้นสุดโบนัส --- */
 
 
 /* --- Keyframe Animations (เด้ง & ลอย) --- */
@@ -345,9 +356,8 @@ h1, h2 {
     h1 { font-size: 1.8em; }
     h2 { font-size: 1.4em; }
 
-    /* [เพิ่ม] 4. ปรับ Title ในมือถือ */
     .welcome-box h1 {
-        font-size: 1.6em; /* ขนาดในมือถือ */
+        font-size: 1.6em;
     }
 
     .center-box {
